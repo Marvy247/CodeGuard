@@ -1,0 +1,47 @@
+name = "codeguard-agents"
+main = "src/worker.ts"
+compatibility_date = "2024-09-25"
+workers_dev = true
+
+[env.production]
+name = "codeguard-agents-prod"
+
+[[durable_objects.bindings]]
+name = "ORCHESTRATOR"
+class_name = "OrchestratorAgent"
+script_name = "codeguard-agents"
+
+[[durable_objects.bindings]]
+name = "MONITOR"
+class_name = "MonitorAgent"
+script_name = "codeguard-agents"
+
+[[durable_objects.bindings]]
+name = "THREAT_INTEL"
+class_name = "ThreatIntelAgent"
+script_name = "codeguard-agents"
+
+[[durable_objects.bindings]]
+name = "RESPONSE"
+class_name = "ResponseAgent"
+script_name = "codeguard-agents"
+
+[[durable_objects.migrations]]
+tag = "v1"
+new_classes = ["OrchestratorAgent", "MonitorAgent", "ThreatIntelAgent", "ResponseAgent"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "codeguard-db"
+database_id = "your-database-id"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "your-kv-id"
+
+[[vectorize]]
+binding = "VECTORIZE"
+index_name = "exploit-db"
+
+[vars]
+ENVIRONMENT = "development"

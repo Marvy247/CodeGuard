@@ -1,0 +1,27 @@
+{
+  "name": "codeguard-agents",
+  "version": "1.0.0",
+  "description": "CodeGuard AI Security Agents with MCP Integration",
+  "main": "src/worker.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "vitest",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@nullshot/agent": "latest",
+    "@nullshot/mcp": "latest",
+    "@ai-sdk/openai": "^0.0.66",
+    "@ai-sdk/anthropic": "^0.0.51",
+    "hono": "^4.0.0",
+    "viem": "^2.21.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240925.0",
+    "wrangler": "^3.78.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.0.0"
+  }
+}
