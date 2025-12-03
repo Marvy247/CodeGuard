@@ -1,5 +1,10 @@
 "use client";
 
+import { Shield, Clock, AlertTriangle, ExternalLink } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import { RiskScoreGauge } from "./RiskScoreGauge";
 import type { ProtectedContract } from "../../types/contract";
 
@@ -11,51 +16,86 @@ interface ProtectedContractCardProps {
 export function ProtectedContractCard({ contract, onViewDetails }: ProtectedContractCardProps) {
   const formatTimestamp = (timestamp: number) => {
     if (!timestamp) return "Never";
-    return new Date(timestamp * 1000).toLocaleString();
+    const date = new Date(timestamp * 1000);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    
+    if (diffMins < 1) return "Just now";
+    if (diffMins < 60) return `${diffMins}m ago`;
+    if (diffMins < 1440) return `${Math.floor(diffMins / 60)}h ago`;
+    return date.toLocaleDateString();
+  };
+
+  const truncateAddress = (address: string) => {
+    return `${address.slice(0, 6)}...${address.slice(-4)}`;
   };
 
   return (
-    <div className="border border-gray-800 rounded-lg p-6 hover:border-gray-700 transition-colors">
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex-1">
-          <h3 className="text-lg font-semibold mb-1">{contract.protocolName}</h3>
-          <p className="text-sm text-gray-400 font-mono">{contract.address}</p>
+    <Card className="group hover:shadow-lg hover:border-primary/50 transition-all duration-300">
+      <CardHeader className="pb-3">
+        <div className="flex items-start justify-between">
+          <div className="flex-1 min-w-0">
+            <CardTitle className="flex items-center gap-2 mb-1">
+              <Shield className="h-5 w-5 text-primary" />
+              {contract.protocolName}
+            </CardTitle>
+            <CardDescription className="font-mono text-xs flex items-center gap-2">
+              {truncateAddress(contract.address)}
+              <ExternalLink className="h-3 w-3 opacity-50" />
+            </CardDescription>
+          </div>
+          <RiskScoreGauge score={contract.riskScore} size="sm" showLabel={false} />
         </div>
-        <RiskScoreGauge score={contract.riskScore} size="sm" />
-      </div>
+      </CardHeader>
 
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        <div>
-          <p className="text-xs text-gray-500 mb-1">Status</p>
-          {contract.isPaused ? (
-            <span className="inline-flex items-center gap-1 px-2 py-1 text-xs rounded bg-red-500/20 text-red-400">
-              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-              Paused
-            </span>
-          ) : (
-            <span className="inline-flex items-center gap-1 px-2 py-1 text-xs rounded bg-green-500/20 text-green-400">
-              <span className="w-2 h-2 rounded-full bg-green-500" />
-              Active
-            </span>
-          )}
-        </div>
-        <div>
-          <p className="text-xs text-gray-500 mb-1">Last Check</p>
-          <p className="text-sm">{formatTimestamp(contract.lastCheckTimestamp)}</p>
-        </div>
-      </div>
+      <Separator />
 
-      <div className="flex items-center gap-2">
-        <button
-          onClick={onViewDetails}
-          className="flex-1 px-4 py-2 text-sm rounded bg-blue-600 hover:bg-blue-700 transition-colors"
-        >
-          View Details
-        </button>
-        <button className="px-4 py-2 text-sm rounded border border-gray-700 hover:border-gray-600 transition-colors">
-          Analyze
-        </button>
-      </div>
-    </div>
+      <CardContent className="pt-4 space-y-4">
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-1">
+            <p className="text-xs text-muted-foreground flex items-center gap-1">
+              <AlertTriangle className="h-3 w-3" />
+              Status
+            </p>
+            {contract.isPaused ? (
+              <Badge variant="destructive" className="gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
+                Paused
+              </Badge>
+            ) : (
+              <Badge variant="outline" className="gap-1 border-green-500/50 text-green-500">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                Active
+              </Badge>
+            )}
+          </div>
+          <div className="space-y-1">
+            <p className="text-xs text-muted-foreground flex items-center gap-1">
+              <Clock className="h-3 w-3" />
+              Last Check
+            </p>
+            <p className="text-sm font-medium">{formatTimestamp(contract.lastCheckTimestamp)}</p>
+          </div>
+        </div>
+
+        <div className="flex gap-2">
+          <Button 
+            onClick={onViewDetails} 
+            className="flex-1 group-hover:shadow-md transition-shadow"
+            size="sm"
+          >
+            View Details
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm"
+            className="group-hover:border-primary/50 transition-colors"
+          >
+            Analyze
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
