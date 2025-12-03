@@ -1,0 +1,119 @@
+{
+  "mcpServers": {
+    "bytecode-analyzer": {
+      "name": "Bytecode Analyzer MCP",
+      "description": "Analyze smart contract bytecode for vulnerabilities",
+      "version": "1.0.0",
+      "tools": [
+        {
+          "name": "decompile",
+          "description": "Decompile contract bytecode",
+          "parameters": {
+            "address": "string",
+            "chain": "string"
+          }
+        },
+        {
+          "name": "detectPatterns",
+          "description": "Detect vulnerability patterns",
+          "parameters": {
+            "bytecode": "string"
+          }
+        },
+        {
+          "name": "extractFunctions",
+          "description": "Extract function signatures",
+          "parameters": {
+            "address": "string"
+          }
+        },
+        {
+          "name": "similaritySearch",
+          "description": "Find similar contracts",
+          "parameters": {
+            "bytecode": "string",
+            "topK": "number"
+          }
+        }
+      ]
+    },
+    "notification": {
+      "name": "Notification MCP",
+      "description": "Send alerts via Discord, Telegram, and Email",
+      "version": "1.0.0",
+      "tools": [
+        {
+          "name": "sendDiscord",
+          "description": "Send Discord notification",
+          "parameters": {
+            "title": "string",
+            "description": "string",
+            "color": "string"
+          }
+        },
+        {
+          "name": "sendTelegram",
+          "description": "Send Telegram notification",
+          "parameters": {
+            "message": "string",
+            "chatId": "string"
+          }
+        },
+        {
+          "name": "createIncidentReport",
+          "description": "Create incident report",
+          "parameters": {
+            "contractAddress": "string",
+            "incidentType": "string",
+            "riskScore": "number",
+            "details": "object"
+          }
+        },
+        {
+          "name": "sendMultiChannelAlert",
+          "description": "Send alert to all channels",
+          "parameters": {
+            "title": "string",
+            "message": "string",
+            "severity": "string"
+          }
+        }
+      ]
+    },
+    "vector-db": {
+      "name": "Vector Database MCP",
+      "description": "Semantic search over historical exploits",
+      "version": "1.0.0",
+      "tools": [
+        {
+          "name": "semanticSearch",
+          "description": "Search for similar exploits",
+          "parameters": {
+            "query": "string",
+            "topK": "number"
+          }
+        },
+        {
+          "name": "storeExploit",
+          "description": "Store new exploit",
+          "parameters": {
+            "exploitId": "string",
+            "description": "string",
+            "exploitType": "string",
+            "date": "string",
+            "lossUsd": "number",
+            "report": "string"
+          }
+        },
+        {
+          "name": "findSimilarContracts",
+          "description": "Find similar contracts",
+          "parameters": {
+            "bytecode": "string",
+            "topK": "number"
+          }
+        }
+      ]
+    }
+  }
+}
