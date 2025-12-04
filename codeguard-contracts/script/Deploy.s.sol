@@ -53,15 +53,13 @@ contract DeployScript is Script {
         
         vm.stopBroadcast();
         
-        // Write deployment addresses to file
-        string memory deployments = string.concat(
-            "GUARDIAN_REGISTRY=", vm.toString(address(guardianRegistry)), "\n",
-            "INCIDENT_LOG=", vm.toString(address(incidentLog)), "\n",
-            "MODEL_REGISTRY=", vm.toString(address(modelRegistry)), "\n",
-            "INSURANCE_POOL=", vm.toString(address(insurancePool)), "\n"
-        );
-        
-        vm.writeFile("deployments.txt", deployments);
-        console.log("\nDeployment addresses written to deployments.txt");
+        // Log deployment addresses
+        console.log("\n=== DEPLOYMENT COMPLETE ===");
+        console.log("Copy these addresses:");
+        console.log("GUARDIAN_REGISTRY=", address(guardianRegistry));
+        console.log("INCIDENT_LOG=", address(incidentLog));
+        console.log("MODEL_REGISTRY=", address(modelRegistry));
+        console.log("INSURANCE_POOL=", address(insurancePool));
+        console.log("==========================");
     }
 }
