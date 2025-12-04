@@ -99,7 +99,7 @@ export default function DashboardPage() {
               <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
               System Operational
             </Badge>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground" suppressHydrationWarning>
               Last updated: {new Date().toLocaleTimeString()}
             </p>
           </div>
