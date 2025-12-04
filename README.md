@@ -8,13 +8,13 @@
 
 CodeGuard is a revolutionary security platform that deploys **6 specialized AI agents** working in perfect coordination to detect and prevent smart contract exploits in real-time. Built for **NullShot Hacks Season 0 - Track 1**, it showcases the full power of the Nullshot Typescript Agent Framework and Model Context Protocol (MCP).
 
-**🏆 What makes CodeGuard special:**
-- ⚡ **9-second response time** from threat detection to contract pause
-- 🤖 **6 AI agents** with specialized security expertise
-- 🔧 **8 custom MCP tools** for deep blockchain analysis
-- 🔗 **Fully deployed** on Base Sepolia with verified contracts
-- 💎 **Production-ready** architecture built on Cloudflare Workers
-- 🎨 **Beautiful dashboard** with real-time incident monitoring
+** What makes CodeGuard special:**
+-  **9-second response time** from threat detection to contract pause
+-  **6 AI agents** with specialized security expertise
+-  **8 custom MCP tools** for deep blockchain analysis
+-  **Fully deployed** on Base Sepolia with verified contracts
+-  **Production-ready** architecture built on Cloudflare Workers
+-  **Beautiful dashboard** with real-time incident monitoring
 
 ---
 
@@ -601,7 +601,7 @@ GET  /status   - Check proposal status
 
 **Message Format:**
 ```
-🚨 CRITICAL ALERT: Re-entrancy Attack Detected
+CRITICAL ALERT: Re-entrancy Attack Detected
 
 Contract: 0x9876...3210
 Risk Score: 95/100
@@ -927,7 +927,7 @@ Result: $0 stolen, full incident audit trail preserved
 
 ## Features
 
-### 🚀 Core Features
+### Core Features
 
 - ✅ **Real-Time Monitoring** - Every transaction analyzed as it happens
 - ✅ **Autonomous Response** - No human intervention needed for emergency pause
@@ -938,7 +938,7 @@ Result: $0 stolen, full incident audit trail preserved
 - ✅ **Beautiful Dashboard** - Real-time incident visualization
 - ✅ **Economic Incentives** - Staking, rewards, insurance claims
 
-### 🎨 Dashboard Features
+### Dashboard Features
 
 - **Risk Score Gauges** - Animated circular gauges showing threat levels
 - **Protected Contracts** - List of all monitored contracts with status
@@ -947,7 +947,7 @@ Result: $0 stolen, full incident audit trail preserved
 - **Interactive Filtering** - View active, paused, or all contracts
 - **Basescan Integration** - One-click to view contracts on explorer
 
-### 🔒 Security Features
+### Security Features
 
 - **Rate Limiting** - Max 5 pauses per hour per guardian
 - **Timelock** - 24-hour delay on resume operations
@@ -1364,7 +1364,7 @@ MIT License - see [LICENSE](LICENSE) for details
 
 <div align="center">
 
-**Built with ❤️ for NullShot Hacks Season 0**
+**Built with for NullShot Hacks Season 0**
 
 *Securing Web3, One Agent at a Time* 🛡️
 
