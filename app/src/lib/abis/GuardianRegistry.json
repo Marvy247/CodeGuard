@@ -1,77 +1,717 @@
-
-╭-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------╮
-| Type        | Signature                                                                                      | Selector                                                           |
-+===================================================================================================================================================================================+
-| event       | ContractRegistered(address,address,string,uint256)                                             | 0x7ce5df2a2f19bfd22b70ad352448ce58752d35593bcf5378e0520e5cbdd3cacc |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| event       | ContractResumed(address,address,uint256)                                                       | 0x71115d53415faac6de308bbc2071efa66b16b987f30ccebee9389cf8105c93c9 |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| event       | EmergencyPause(address,address,string,uint256,uint256)                                         | 0xeac60cb943ac1ae7961d73f4e2947ac6377adf4ca518be0ad29760114e402091 |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| event       | RiskScoreUpdated(address,uint256,uint256,uint256)                                              | 0x3de90e674590617ea446a484bfb7c80463e2aa19fae231eadf228e0573365b8b |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| event       | RoleAdminChanged(bytes32,bytes32,bytes32)                                                      | 0xbd79b86ffe0ab8e8776151514217cd7cacd52c909f66475c3af44e129f0b00ff |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| event       | RoleGranted(bytes32,address,address)                                                           | 0x2f8788117e7eff1d82e926ec794901d17c78024a50270940304540a733656f0d |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| event       | RoleRevoked(bytes32,address,address)                                                           | 0xf6391f5c32d9c69d2a47ea670b442974b53935d1edc7fd64eb21e047a839171b |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| error       | AccessControlBadConfirmation()                                                                 | 0x6697b232                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| error       | AccessControlUnauthorizedAccount(address,bytes32)                                              | 0xe2517d3f                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| error       | ReentrancyGuardReentrantCall()                                                                 | 0x3ee5aeb5                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| function    | DAO_ROLE() view returns (bytes32)                                                              | 0xe9c26518                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| function    | DEFAULT_ADMIN_ROLE() view returns (bytes32)                                                    | 0xa217fddf                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| function    | GUARDIAN_ROLE() view returns (bytes32)                                                         | 0x24ea54f4                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| function    | MAX_PAUSES_PER_HOUR() view returns (uint256)                                                   | 0x16285e6b                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| function    | PAUSE_COOLDOWN() view returns (uint256)                                                        | 0xb5acb567                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| function    | allProtectedContracts(uint256) view returns (address)                                          | 0xb547c89e                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| function    | authorizeGuardian(address) nonpayable                                                          | 0x1f23c4ee                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| function    | emergencyPause(address,string,uint256) nonpayable                                              | 0x69c3b0c5                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| function    | getAllProtectedContracts() view returns (address[])                                            | 0xf46d39dc                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| function    | getContractDetails(address) view returns (GuardianRegistry.ProtectedContract)                  | 0x32df3f02                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| function    | getRoleAdmin(bytes32) view returns (bytes32)                                                   | 0x248a9ca3                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| function    | grantRole(bytes32,address) nonpayable                                                          | 0x2f2ff15d                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| function    | hasRole(bytes32,address) view returns (bool)                                                   | 0x91d14854                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| function    | isContractPaused(address) view returns (bool)                                                  | 0xb0f008eb                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| function    | isProtected(address) view returns (bool)                                                       | 0xce35de95                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| function    | lastPauseHourReset() view returns (uint256)                                                    | 0x1690c613                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| function    | pauseCount() view returns (uint256)                                                            | 0x2570c082                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| function    | protectedContracts(address) view returns (address,address,uint256,bool,uint256,uint256,string) | 0x1ec01d71                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| function    | registerContract(address,address,string) nonpayable                                            | 0x8e716ccb                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| function    | renounceRole(bytes32,address) nonpayable                                                       | 0x36568abe                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| function    | resumeContract(address) nonpayable                                                             | 0x3413ff8f                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| function    | revokeGuardian(address) nonpayable                                                             | 0xaf648c3d                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| function    | revokeRole(bytes32,address) nonpayable                                                         | 0xd547741f                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| function    | supportsInterface(bytes4) view returns (bool)                                                  | 0x01ffc9a7                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| function    | updateRiskScore(address,uint256) nonpayable                                                    | 0x9ff1192d                                                         |
-|-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------|
-| constructor | constructor() nonpayable                                                                       |                                                                    |
-╰-------------+------------------------------------------------------------------------------------------------+--------------------------------------------------------------------╯
-
+[
+  {
+    "type": "constructor",
+    "inputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "DAO_ROLE",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "DEFAULT_ADMIN_ROLE",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "GUARDIAN_ROLE",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "MAX_PAUSES_PER_HOUR",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "PAUSE_COOLDOWN",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "allProtectedContracts",
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "authorizeGuardian",
+    "inputs": [
+      {
+        "name": "_agent",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "emergencyPause",
+    "inputs": [
+      {
+        "name": "_contractAddress",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "_reason",
+        "type": "string",
+        "internalType": "string"
+      },
+      {
+        "name": "_riskScore",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "getAllProtectedContracts",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address[]",
+        "internalType": "address[]"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getContractDetails",
+    "inputs": [
+      {
+        "name": "_contractAddress",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "internalType": "struct GuardianRegistry.ProtectedContract",
+        "components": [
+          {
+            "name": "contractAddress",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "guardian",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "riskScore",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "isPaused",
+            "type": "bool",
+            "internalType": "bool"
+          },
+          {
+            "name": "lastCheckTimestamp",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "pausedAt",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "protocolName",
+            "type": "string",
+            "internalType": "string"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getRoleAdmin",
+    "inputs": [
+      {
+        "name": "role",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "grantRole",
+    "inputs": [
+      {
+        "name": "role",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "account",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "hasRole",
+    "inputs": [
+      {
+        "name": "role",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "account",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "isContractPaused",
+    "inputs": [
+      {
+        "name": "_contractAddress",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "isProtected",
+    "inputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "lastPauseHourReset",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "pauseCount",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "protectedContracts",
+    "inputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "contractAddress",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "guardian",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "riskScore",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "isPaused",
+        "type": "bool",
+        "internalType": "bool"
+      },
+      {
+        "name": "lastCheckTimestamp",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "pausedAt",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "protocolName",
+        "type": "string",
+        "internalType": "string"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "registerContract",
+    "inputs": [
+      {
+        "name": "_contractAddress",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "_guardian",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "_protocolName",
+        "type": "string",
+        "internalType": "string"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "renounceRole",
+    "inputs": [
+      {
+        "name": "role",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "callerConfirmation",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "resumeContract",
+    "inputs": [
+      {
+        "name": "_contractAddress",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "revokeGuardian",
+    "inputs": [
+      {
+        "name": "_agent",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "revokeRole",
+    "inputs": [
+      {
+        "name": "role",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "account",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "supportsInterface",
+    "inputs": [
+      {
+        "name": "interfaceId",
+        "type": "bytes4",
+        "internalType": "bytes4"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "updateRiskScore",
+    "inputs": [
+      {
+        "name": "_contractAddress",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "_riskScore",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "event",
+    "name": "ContractRegistered",
+    "inputs": [
+      {
+        "name": "contractAddress",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "guardian",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "protocolName",
+        "type": "string",
+        "indexed": false,
+        "internalType": "string"
+      },
+      {
+        "name": "timestamp",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "ContractResumed",
+    "inputs": [
+      {
+        "name": "contractAddress",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "dao",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "timestamp",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "EmergencyPause",
+    "inputs": [
+      {
+        "name": "contractAddress",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "guardian",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "reason",
+        "type": "string",
+        "indexed": false,
+        "internalType": "string"
+      },
+      {
+        "name": "riskScore",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "timestamp",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "RiskScoreUpdated",
+    "inputs": [
+      {
+        "name": "contractAddress",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "oldScore",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "newScore",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "timestamp",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "RoleAdminChanged",
+    "inputs": [
+      {
+        "name": "role",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "previousAdminRole",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "newAdminRole",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "RoleGranted",
+    "inputs": [
+      {
+        "name": "role",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "account",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "sender",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "RoleRevoked",
+    "inputs": [
+      {
+        "name": "role",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "account",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "sender",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "error",
+    "name": "AccessControlBadConfirmation",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "AccessControlUnauthorizedAccount",
+    "inputs": [
+      {
+        "name": "account",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "neededRole",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "ReentrancyGuardReentrantCall",
+    "inputs": []
+  }
+]

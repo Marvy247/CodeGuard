@@ -1,31 +1,27 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  turbopack: {
-    rules: {
-      "*.test.{js,ts,tsx}": {
-        loaders: ["ignore-loader"],
-      },
-    },
-  },
-  webpack: (config) => {
-    config.externals.push("pino-pretty", "lokijs", "encoding");
+  turbopack: {},
+  webpack: (config, { isServer }) => {
+    config.externals.push(
+      "pino-pretty",
+      "pino",
+      "thread-stream", 
+      "lokijs",
+      "encoding",
+      "worker_threads"
+    );
     config.resolve.fallback = {
       ...config.resolve.fallback,
       fs: false,
       net: false,
       tls: false,
+      worker_threads: false,
     };
     return config;
   },
-  // Ignore test files and problematic imports during build
-  experimental: {
-    turbo: {
-      resolveAlias: {
-        "thread-stream": false,
-      },
-    },
-  },
+  // Output standalone for easier deployment
+  output: "standalone",
 };
 
 export default nextConfig;

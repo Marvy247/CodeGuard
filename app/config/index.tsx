@@ -1,24 +1,11 @@
-import { cookieStorage, createStorage, http } from '@wagmi/core'
-import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
-import { base, baseSepolia } from '@reown/appkit/networks'
+import { http, createConfig } from 'wagmi'
+import { baseSepolia } from 'wagmi/chains'
 
-// Get projectId from https://dashboard.reown.com
-export const projectId = process.env.NEXT_PUBLIC_PROJECT_ID
-
-if (!projectId) {
-  throw new Error('Project ID is not defined')
-}
-
-export const networks = [base, baseSepolia]
-
-//Set up the Wagmi Adapter (Config)
-export const wagmiAdapter = new WagmiAdapter({
-  storage: createStorage({
-    storage: cookieStorage
-  }),
-  ssr: true,
-  projectId,
-  networks
+// Simple wagmi config without wallet connection (for demo with mock data)
+// Uses public Base Sepolia RPC endpoint
+export const config = createConfig({
+  chains: [baseSepolia],
+  transports: {
+    [baseSepolia.id]: http('https://sepolia.base.org'),
+  },
 })
-
-export const config = wagmiAdapter.wagmiConfig
