@@ -8,42 +8,52 @@ export function useAgentWebSocket() {
   const [ws, setWs] = useState<WebSocket | null>(null);
 
   useEffect(() => {
-    const websocket = new WebSocket(AGENT_WS_URL);
+    // Try to connect to agents WebSocket (optional for demo)
+    try {
+      const websocket = new WebSocket(AGENT_WS_URL);
 
-    websocket.onopen = () => {
-      console.log("WebSocket connected");
-      setConnected(true);
-    };
+      websocket.onopen = () => {
+        console.log("✅ Agent WebSocket connected");
+        setConnected(true);
+      };
 
-    websocket.onmessage = (event) => {
-      try {
-        const message = JSON.parse(event.data);
-        
-        if (message.type === "incident") {
-          setIncidents(prev => [message.data, ...prev].slice(0, 100));
-        } else if (message.type === "analysis-complete") {
-          console.log("Analysis complete:", message.payload);
+      websocket.onmessage = (event) => {
+        try {
+          const message = JSON.parse(event.data);
+          
+          if (message.type === "incident") {
+            setIncidents(prev => [message.data, ...prev].slice(0, 100));
+          } else if (message.type === "analysis-complete") {
+            console.log("Analysis complete:", message.payload);
+          }
+        } catch (error) {
+          // Silent fail - not critical
         }
-      } catch (error) {
-        console.error("Error parsing WebSocket message:", error);
-      }
-    };
+      };
 
-    websocket.onerror = (error) => {
-      console.error("WebSocket error:", error);
+      websocket.onerror = () => {
+        // Agents not running - this is okay for demo
+        setConnected(false);
+      };
+
+      websocket.onclose = () => {
+        setConnected(false);
+      };
+
+      setWs(websocket);
+
+      return () => {
+        try {
+          websocket.close();
+        } catch {
+          // Silent cleanup
+        }
+      };
+    } catch (error) {
+      // WebSocket connection failed - agents not running
+      // This is expected and okay for demo mode
       setConnected(false);
-    };
-
-    websocket.onclose = () => {
-      console.log("WebSocket disconnected");
-      setConnected(false);
-    };
-
-    setWs(websocket);
-
-    return () => {
-      websocket.close();
-    };
+    }
   }, []);
 
   const sendMessage = useCallback((message: any) => {

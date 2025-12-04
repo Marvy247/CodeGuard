@@ -14,6 +14,10 @@ interface ProtectedContractCardProps {
 }
 
 export function ProtectedContractCard({ contract, onViewDetails }: ProtectedContractCardProps) {
+  const handleAnalyze = () => {
+    // Open Basescan in new tab
+    window.open(`https://sepolia.basescan.org/address/${contract.address}`, '_blank');
+  };
   const formatTimestamp = (timestamp: number) => {
     if (!timestamp) return "Never";
     const date = new Date(timestamp * 1000);
@@ -81,16 +85,17 @@ export function ProtectedContractCard({ contract, onViewDetails }: ProtectedCont
 
         <div className="flex gap-2">
           <Button 
-            onClick={onViewDetails} 
+            onClick={onViewDetails || (() => window.open(`https://sepolia.basescan.org/address/${contract.address}`, '_blank'))}
             className="flex-1 group-hover:shadow-md transition-shadow"
             size="sm"
           >
-            View Details
+            View on Basescan
           </Button>
           <Button 
             variant="outline" 
             size="sm"
             className="group-hover:border-primary/50 transition-colors"
+            onClick={handleAnalyze}
           >
             Analyze
           </Button>

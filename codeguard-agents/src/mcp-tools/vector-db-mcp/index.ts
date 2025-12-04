@@ -1,21 +1,16 @@
-import { McpHonoServerDO } from "@nullshot/mcp/hono-server";
-import { Implementation } from "@modelcontextprotocol/sdk/types.js";
+import { McpBaseDO } from "../../shared/mcp-base";
 import type { Env } from "../../shared/types";
 
 /**
  * Vector DB MCP
  * Semantic search over historical exploits using Cloudflare Vectorize
  */
-export class VectorDBMCP extends McpHonoServerDO<Env> {
-  getImplementation(): Implementation {
-    return {
-      name: "VectorDBMCP",
-      version: "1.0.0",
-      vendor: "CodeGuard",
-    };
+export class VectorDBMCP extends McpBaseDO {
+  constructor(state: DurableObjectState, env: Env) {
+    super(state, env);
   }
 
-  protected configureServer(server: any): void {
+  protected setupRoutes(): void {
     // Tool: Semantic search
     server.tool(
       "semanticSearch",

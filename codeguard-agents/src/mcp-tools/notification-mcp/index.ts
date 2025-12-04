@@ -1,26 +1,19 @@
-import { McpHonoServerDO } from "@nullshot/mcp/hono-server";
-import { Implementation } from "@modelcontextprotocol/sdk/types.js";
+import { McpBaseDO } from "../../shared/mcp-base";
 import type { Env } from "../../shared/types";
 
 /**
  * Notification MCP
  * Sends alerts via Discord, Telegram, and Email
  */
-export class NotificationMCP extends McpHonoServerDO<Env> {
-  getImplementation(): Implementation {
-    return {
-      name: "NotificationMCP",
-      version: "1.0.0",
-      vendor: "CodeGuard",
-    };
+export class NotificationMCP extends McpBaseDO {
+  constructor(state: DurableObjectState, env: Env) {
+    super(state, env);
   }
 
-  protected configureServer(server: any): void {
+  protected setupRoutes(): void {
     // Tool: Send Discord notification
-    server.tool(
-      "sendDiscord",
-      "Send alert to Discord webhook",
-      async (params: { title: string; description: string; color?: string }) => {
+    this.app.post("/sendDiscord", async (c) => {
+      const params = await c.req.json() as { title: string; description: string; color?: string };
         const { title, description, color = "red" } = params;
         
         try {

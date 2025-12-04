@@ -1,114 +1,57 @@
-import { McpHonoServerDO } from "@nullshot/mcp/hono-server";
-import { Implementation } from "@modelcontextprotocol/sdk/types.js";
+import { McpBaseDO } from "../../shared/mcp-base";
 import type { Env } from "../../shared/types";
 
 /**
  * Bytecode Analyzer MCP
  * Provides tools for analyzing smart contract bytecode
  */
-export class BytecodeAnalyzerMCP extends McpHonoServerDO<Env> {
-  getImplementation(): Implementation {
-    return {
-      name: "BytecodeAnalyzerMCP",
-      version: "1.0.0",
-      vendor: "CodeGuard",
-    };
+export class BytecodeAnalyzerMCP extends McpBaseDO {
+  constructor(state: DurableObjectState, env: Env) {
+    super(state, env);
   }
 
-  protected configureServer(server: any): void {
+  protected setupRoutes(): void {
     // Tool: Decompile bytecode
-    server.tool(
-      "decompile",
-      "Decompile contract bytecode to readable format",
-      async (params: { address: string; chain?: string }) => {
-        const { address, chain = "base" } = params;
+    this.app.post("/decompile", async (c) => {
+      const params = await c.req.json() as { address: string; chain?: string };
+      const { address, chain = "base" } = params;
+      
+      try {
+        const bytecode = await this.fetchBytecode(address);
+        const decompiled = this.decompileBytecode(bytecode);
         
-        try {
-          const bytecode = await this.fetchBytecode(address);
-          const decompiled = this.decompileBytecode(bytecode);
-          
-          return {
-            content: [{
-              type: "text",
-              text: JSON.stringify({ address, decompiled, bytecodeLength: bytecode.length }, null, 2),
-            }],
-          };
-        } catch (error) {
-          return {
-            content: [{
-              type: "text",
-              text: `Error: ${error instanceof Error ? error.message : "Unknown error"}`,
-            }],
-            isError: true,
-          };
-        }
+        return c.json({ address, decompiled, bytecodeLength: bytecode.length });
+      } catch (error) {
+        return c.json({ error: error instanceof Error ? error.message : "Unknown error" }, 500);
       }
-    );
+    });
 
     // Tool: Detect vulnerability patterns
-    server.tool(
-      "detectPatterns",
-      "Detect known vulnerability patterns in bytecode",
-      async (params: { bytecode: string }) => {
-        const { bytecode } = params;
-        
-        const patterns = this.detectPatterns(bytecode);
-        
-        return {
-          content: [{
-            type: "text",
-            text: JSON.stringify({ patterns, count: patterns.length }, null, 2),
-          }],
-        };
-      }
-    );
+    this.app.post("/detectPatterns", async (c) => {
+      const { bytecode } = await c.req.json() as { bytecode: string };
+      const patterns = this.detectPatterns(bytecode);
+      return c.json({ patterns, count: patterns.length });
+    });
 
     // Tool: Extract function signatures
-    server.tool(
-      "extractFunctions",
-      "Extract function signatures from contract",
-      async (params: { address: string }) => {
-        const { address } = params;
-        
-        try {
-          const bytecode = await this.fetchBytecode(address);
-          const functions = this.extractFunctions(bytecode);
-          
-          return {
-            content: [{
-              type: "text",
-              text: JSON.stringify({ address, functions }, null, 2),
-            }],
-          };
-        } catch (error) {
-          return {
-            content: [{
-              type: "text",
-              text: `Error: ${error instanceof Error ? error.message : "Unknown error"}`,
-            }],
-            isError: true,
-          };
-        }
+    this.app.post("/extractFunctions", async (c) => {
+      const { address } = await c.req.json() as { address: string };
+      
+      try {
+        const bytecode = await this.fetchBytecode(address);
+        const functions = this.extractFunctions(bytecode);
+        return c.json({ address, functions });
+      } catch (error) {
+        return c.json({ error: error instanceof Error ? error.message : "Unknown error" }, 500);
       }
-    );
+    });
 
     // Tool: Similarity search
-    server.tool(
-      "similaritySearch",
-      "Find similar contracts by bytecode similarity",
-      async (params: { bytecode: string; topK?: number }) => {
-        const { bytecode, topK = 5 } = params;
-        
-        const similar = await this.findSimilarContracts(bytecode, topK);
-        
-        return {
-          content: [{
-            type: "text",
-            text: JSON.stringify({ similar, count: similar.length }, null, 2),
-          }],
-        };
-      }
-    );
+    this.app.post("/similaritySearch", async (c) => {
+      const { bytecode, topK = 5 } = await c.req.json() as { bytecode: string; topK?: number };
+      const similar = await this.findSimilarContracts(bytecode, topK);
+      return c.json({ similar, count: similar.length });
+    });
   }
 
   private async fetchBytecode(address: string): Promise<string> {
